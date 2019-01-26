@@ -8,7 +8,7 @@
 ## AddOnVersion: 111 
 ## Version: 1.11
 ## APIVersion: 100026
-## OptionalDependsOn: LibStub
+## DependsOn: LibStub
 
 LibStub/LibStub.lua
 libCommonInventoryFilters/libCommonInventoryFilters.lua
