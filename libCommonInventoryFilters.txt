@@ -5,7 +5,9 @@
 
 ## Title: libCommonInventoryFilters
 ## Author: Merlight
-## APIVersion: 100012
+## AddOnVersion: 111 
+## Version: 1.11
+## APIVersion: 100026
 ## OptionalDependsOn: LibStub
 
 LibStub/LibStub.lua
