@@ -63,39 +63,18 @@ local function enableGuildStoreSellFilters()
     TRADING_HOUSE_SCENE:RegisterCallback("StateChange", SceneStateChange)
 end
 
---if the mouse is enabled, cycle its state to refresh the integrity of the control beneath it
-local function SafeUpdateList(object, ...)
-    local isMouseVisible = SCENE_MANAGER:IsInUIMode()
-    if isMouseVisible then
-        HideMouse()
-    end
-    object:UpdateList(...)
-    if isMouseVisible then
-        ShowMouse()
-    end
-end
-
 local function fixSearchBoxBugs()
     -- http://www.esoui.com/forums/showthread.php?t=4551
     -- search box bug #1: stale searchData after swapping equipment
-    SHARED_INVENTORY:RegisterCallback(
-        "SlotUpdated",
-        function(bagId, slotIndex, slotData)
-            if slotData and slotData.searchData then
-                slotData.searchData.cached = false
-                slotData.searchData.cache = nil
-            end
-        end
-    )
+    -- -> It seems to be fixed
 
     -- guild bank search box bug #2: wrong inventory updated
-    ZO_GuildBankSearchBox:SetHandler(
-        "OnTextChanged",
-        function(editBox)
-            ZO_EditDefaultText_OnTextChanged(editBox)
-            SafeUpdateList(PLAYER_INVENTORY, INVENTORY_GUILD_BANK)
+    ZO_PostHook("ZO_PlayerInventory_OnSearchTextChanged",
+    function(editBox)
+        if editBox == ZO_GuildBankSearchBox then
+            PLAYER_INVENTORY:UpdateList(INVENTORY_GUILD_BANK)
         end
-    )
+    end)
 
     -- guild bank search box bug #3: wrong search box cleared
     local guildBankScene = SCENE_MANAGER:GetScene("guildBank")
